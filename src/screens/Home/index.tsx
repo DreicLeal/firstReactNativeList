@@ -9,17 +9,22 @@ import {
 } from "react-native";
 import { styles } from "./styles";
 import { Participant } from "../../components/participant";
+import React from "react";
 
 export function Home() {
   const [participants, setPartcipants] = useState<string[]>([]);
-  const [newParticipant, setNewPartcipant] = useState<string>("");
+  const [newParticipant, setNewParticipant] = useState<string>("");
 
   function handleParticipantAdd() {
-    if (participants.includes(newParticipant)) {
+    const newTrimmedParticipant = newParticipant.trim();
+    if (newTrimmedParticipant.length === 0) {
+      return Alert.alert("Campo não pode ser vazio.");
+    }
+    if (participants.includes(newTrimmedParticipant)) {
       return Alert.alert("Participante já existe na lista");
     }
-    setPartcipants((prevState) => [...prevState, newParticipant]);
-    setNewPartcipant("");
+    setPartcipants((prevState) => [...prevState, newTrimmedParticipant]);
+    setNewParticipant("");
   }
   function handleParticipantRemove(name: string) {
     if (!participants.includes(name)) {
@@ -39,7 +44,6 @@ export function Home() {
       },
       { text: "Não", style: "cancel" },
     ]);
-    console.log(`você clicou para remover o participante ${name}`);
   }
   return (
     <View style={styles.container}>
@@ -50,7 +54,7 @@ export function Home() {
           style={styles.input}
           placeholder="Nome do participante"
           placeholderTextColor="#6b6b6b"
-          onChangeText={setNewPartcipant}
+          onChangeText={setNewParticipant}
           value={newParticipant}
         />
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>

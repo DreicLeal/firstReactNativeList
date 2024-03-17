@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./style";
+import React from "react";
 
 type PropsParticipant = {
   name: string;
